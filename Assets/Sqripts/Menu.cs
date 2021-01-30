@@ -3,16 +3,16 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-    [SerializeField] private Animator _authorsAnimator;
+    [SerializeField] private Animator _authors;
 
     public void Play()
     {
         SceneManager.LoadScene("SampleScene");
     }
 
-    public void ChangeAutorsState()
+    public void ToggleAutorsState()
     {
-        _authorsAnimator.SetBool("IsOpen", !_authorsAnimator.GetBool("IsOpen"));
+        _authors.SetBool("IsOpen", !_authors.GetBool("IsOpen"));
     }
 
     public void Exit()

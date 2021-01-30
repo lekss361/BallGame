@@ -4,11 +4,11 @@ using UnityEngine.UI;
 public class Coin : MonoBehaviour
 {
     [SerializeField] private Text _textCoin;
-    private int _quantityCoin;
+    private int _coins;
 
-    public void AddCoins(int number)
+    public void Add(int coins)
     {
-        _quantityCoin += number;
-        _textCoin.text = _quantityCoin.ToString();
+        _coins += coins;
+        _textCoin.text = _coins.ToString();
     }
 }
