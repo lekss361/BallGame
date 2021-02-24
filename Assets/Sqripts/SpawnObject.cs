@@ -4,31 +4,42 @@ using UnityEngine;
 
 public class SpawnObject : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> SpawnObjects;
+    [SerializeField] private List<GameObject> _spawnObjects;
     [SerializeField] private Transform _player;
-    [SerializeField] private GameObject _coinPosition;
+    [SerializeField] private Transform _coinPosition;
     [SerializeField] private float _distanceSpawnCoin;
     [SerializeField] private float _distanceSpawnGround;
-    [SerializeField] private Transform _positionGround;
-    [SerializeField] private float MinIntervalGround;
-    [SerializeField] private float MaxIntervalGround;
-    [SerializeField] private float MinIntervalCoin;
-    [SerializeField] private float MaxIntervalCoin;
+    [SerializeField] private Transform _groundPosition;
 
     private void Update()
     {
-        if (_player.position.x + _distanceSpawnGround > _positionGround.position.x)
+        SpawnConditions(_spawnObjects[0], _distanceSpawnCoin, _coinPosition);
+        SpawnConditions(_spawnObjects[1], _distanceSpawnGround, _groundPosition);
+    }
+
+    private void SpawnConditions(GameObject objectSpawn,float distanceSpawn,Transform lastObjectPosition)
+    {
+        float minInterval;
+        float maxInterval;
+
+        if (objectSpawn.GetComponent<CoinSpawnParameters>()==true)
         {
-            Spawn(_positionGround, SpawnObjects[0],MinIntervalGround,MaxIntervalGround);
+           minInterval = objectSpawn.GetComponent<CoinSpawnParameters>().MinInterval;
+           maxInterval = objectSpawn.GetComponent<CoinSpawnParameters>().MaxInterval;
+        }
+        else
+        {
+           minInterval = objectSpawn.GetComponent<GroundSpawnParameters>().MinInterval;
+           maxInterval = objectSpawn.GetComponent<GroundSpawnParameters>().MaxInterval;
         }
 
-        if (_player.position.x + _distanceSpawnCoin > _coinPosition.transform.position.x)
+        if (_player.position.x + distanceSpawn > lastObjectPosition.position.x)
         {
-            Spawn(_coinPosition.transform, SpawnObjects[1],MinIntervalCoin,MaxIntervalCoin);
+            Spawn(lastObjectPosition, objectSpawn, minInterval, maxInterval);
         }
     }
 
-    private void Spawn(Transform position, GameObject ObjectSpawn,float MinInterval, float MaxInterval)
+    private void Spawn(Transform position, GameObject ObjectSpawn, float MinInterval, float MaxInterval)
     {
         float Width = ObjectSpawn.GetComponent<Renderer>().bounds.size.x;
         position.position += new Vector3(Random.Range(Width * MinInterval, Width * MaxInterval), 0, 0);

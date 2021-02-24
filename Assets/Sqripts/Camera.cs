@@ -6,11 +6,6 @@ public class Camera : MonoBehaviour
 
    private void Update()
    {
-        TrackingObject(_player);
-   }
-
-   private void TrackingObject(Transform Object)
-   {
-        transform.position = new Vector3(Object.position.x,transform.position.y,transform.position.z);
+        transform.position = new Vector3(_player.position.x, transform.position.y, transform.position.z);
    }
 }

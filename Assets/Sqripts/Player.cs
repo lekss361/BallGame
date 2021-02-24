@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<Coinz>())
+        if (collision.GetComponent<CoinSpawnParameters>())
         {
             _coins.Add(1);
             Destroy(collision.gameObject);
